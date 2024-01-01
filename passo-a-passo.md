@@ -30,6 +30,9 @@ touch backend/expense/api.py
 mkdir -p backend/core/static/css
 touch backend/core/static/css/custom.css
 
+mkdir -p backend/core/static/js
+touch backend/core/static/js/expense.js
+
 mkdir -p backend/core/templates/core
 touch backend/core/templates/base.html
 touch backend/core/templates/core/index.html
@@ -134,10 +137,18 @@ def delete_expense(request, pk: int):
 
 backend/core/templates/base.html
     Mostrar os links Pico.css, AlpineJS e Axios
+    Mostrar block js
 
+```html
+{% block js %}{% endblock js %}
+```
 
 Mostrar backend/core/templates/core/index.html
 
 
 
 Mostrar backend/expense/templates/expense/expense.html
+
+```html
+
+```
