@@ -3,15 +3,18 @@ Python SECRET_KEY generator.
 """
 import random
 
-chars = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!?@#$%^&*()"
+chars = 'abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!?@#$%^&*()'
 size = 50
-secret_key = "".join(random.sample(chars, size))
+secret_key = ''.join(random.sample(chars, size))
 
-chars = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!?@#$%_"
+chars = (
+    'abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!?@#$%_'
+)
 size = 20
-password = "".join(random.sample(chars, size))
+password = ''.join(random.sample(chars, size))
 
-CONFIG_STRING = """
+CONFIG_STRING = (
+    """
 DEBUG=True
 SECRET_KEY=%s
 ALLOWED_HOSTS=127.0.0.1,.localhost,0.0.0.0
@@ -29,7 +32,9 @@ ALLOWED_HOSTS=127.0.0.1,.localhost,0.0.0.0
 #EMAIL_HOST_USER=
 #EMAIL_HOST_PASSWORD=
 #EMAIL_USE_TLS=True
-""".strip() % (secret_key, password)
+""".strip()
+    % (secret_key, password)
+)
 
 # Writing our configuration file to '.env'
 with open('.env', 'w') as configfile:

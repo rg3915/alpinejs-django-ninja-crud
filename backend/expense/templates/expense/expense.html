@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+  <hgroup>
+    <h2>Despesas</h2>
+    <h3>Exemplo de despesas</h3>
+  </hgroup>
+
+  <a
+    href="#"
+    role="button"
+  >Adicionar</a>
+
+  <table role="grid">
+    <thead>
+      <tr>
+        <th scope="col">Descrição</th>
+        <th
+          scope="col"
+          dir="rtl"
+        >Valor</th>
+        <th
+          scope="col"
+          dir="rtl"
+        >Data</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Almoço</td>
+        <td dir="rtl">R$ 32,00</td>
+        <td dir="rtl">02/01/24</td>
+        <td>
+          <i class="fa fa-lg fa-pencil-square-o"></i>
+          <i class="fa fa-lg fa-close ml-2 is-danger"></i>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input
+            id="id_description"
+            name="description"
+            class="mb-0"
+            type="text"
+            value="Sorvete"
+          />
+        </td>
+        <td dir="rtl">
+          <input
+            id="id_value"
+            name="value"
+            class="mb-0"
+            type="number"
+            min="0"
+            step="0.01"
+            value="5.5"
+          />
+        </td>
+        <td dir="rtl">
+          <input
+            id="id_date_payment"
+            name="date_payment"
+            class="mb-0"
+            type="date"
+          />
+        </td>
+        <td>
+          <div>
+            <a
+              href=""
+              role="button"
+            >
+              <i class="fa fa-check"></i>
+            </a>
+            <a
+              href=""
+              role="button"
+              class="contrast"
+            >
+              <i class="fa fa-close"></i>
+            </a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Camiseta</td>
+        <td dir="rtl">R$ 59,90</td>
+        <td dir="rtl">02/01/24</td>
+        <td>
+          <i class="fa fa-lg fa-pencil-square-o"></i>
+          <i class="fa fa-lg fa-close ml-2 is-danger"></i>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td scope="col">Total</td>
+        <td
+          scope="col"
+          dir="rtl"
+        >R$ 97,40</td>
+        <td
+          scope="col"
+          dir="rtl"
+        ></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <dialog>
+    <article>
+      <header>
+        <a
+          href=""
+          aria-label="Close"
+          class="close"
+          onclick="event.preventDefault()"
+        ></a>
+        Adicionar Despesa
+      </header>
+      <form>
+        {% csrf_token %}
+
+        <label for="">{{ form.description.label }}</label>
+        {{ form.description }}
+
+        <div class="grid">
+          <div>
+            <label for="">{{ form.value.label }}</label>
+            {{ form.value }}
+          </div>
+
+          <div>
+            <label for="">{{ form.date_payment.label }}</label>
+            {{ form.date_payment }}
+          </div>
+        </div>
+
+        <footer class="grid">
+          <button
+            type="button"
+            class="secondary"
+          >Cancelar</button>
+          <button type="submit">Salvar</button>
+        </footer>
+      </form>
+    </article>
+  </dialog>
+</div>
+{% endblock content %}

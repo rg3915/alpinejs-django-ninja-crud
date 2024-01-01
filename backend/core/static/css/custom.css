@@ -1,0 +1,72 @@
+/* Global CSS variables */
+:root {
+  --spacing-company: 3rem;
+  --font-weight: 400;
+}
+
+/* Typography */
+h2,
+h3,
+hgroup> :last-child {
+  font-weight: 200;
+}
+
+small {
+  color: var(--muted-color);
+}
+
+/* Header */
+.hero {
+  background-color: #394046;
+  background-image: url("https://images.unsplash.com/photo-1565514020179-026b92b84bb6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-position: center;
+  background-size: cover;
+}
+
+header {
+  padding: var(--spacing-company) 0;
+}
+
+header hgroup> :last-child {
+  color: var(--h3-color);
+}
+
+header hgroup {
+  margin-bottom: var(--spacing-company);
+}
+
+/* Nav */
+summary[role="link"].contrast:is([aria-current], :hover, :active, :focus) {
+  background-color: transparent;
+  color: var(--contrast-hover);
+}
+
+form.grid {
+  grid-row-gap: 0;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+/* Aside nav */
+aside img {
+  margin-bottom: 0.25rem;
+}
+
+aside p {
+  margin-bottom: var(--spacing-company);
+  line-height: 1.25;
+}
+
+dialog article {
+  width: 700px;
+}
+
+.ml-2 {
+  margin-left: 1rem;
+}
+
+.is-danger {
+  color: red;
+}

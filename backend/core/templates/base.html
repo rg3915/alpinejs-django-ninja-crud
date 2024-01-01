@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AlpineJS • Django Ninja • Pico.css</title>
+  <meta
+    name="description"
+    content="A classic company or blog layout with a sidebar. Built with Pico CSS."
+  />
+  <link rel="shortcut icon" href="https://picocss.com/favicon.ico" />
+  <link rel="canonical" href="https://picocss.com/examples/company/" />
+
+  <!-- Pico.css -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+
+  <!-- Custom styles for this example -->
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+
+  <!-- Font-awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Alpine.js -->
+  <script src="//unpkg.com/alpinejs" defer></script>
+
+  <!-- Axios -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  </head>
+
+<body>
+  <!-- Hero -->
+  <div
+    class="hero"
+    data-theme="dark"
+  >
+    <nav class="container-fluid">
+      <ul>
+        <li>
+          <a
+            href="https://www.youtube.com/c/RegisdoPython/videos"
+            class="contrast"
+          ><strong>Regis do Python</strong></a>
+        </li>
+        <li>
+          <a href="{% url 'expense:expense_list' %}">Despesas</a>
+        </li>
+      </ul>
+    </nav>
+    <header class="container">
+      <hgroup>
+        <h1>Despesas</h1>
+        <h2>Exemplo de CRUD feito com AlpineJS e Django Ninja.</h2>
+      </hgroup>
+      <p><a
+          href="https://github.com/rg3915/alpinejs-django-ninja-crud"
+          role="button"
+        >Github</a></p>
+      <p>Imagem by Unsplash</p>
+    </header>
+  </div>
+  <!-- ./ Hero -->
+
+  <!-- Main -->
+  <main class="container">
+    {% block content %}{% endblock content %}
+  </main>
+  <!-- ./ Main -->
+
+  <!-- Footer -->
+  <footer class="container">
+    <small>Built with <a href="https://picocss.com">Pico</a> •
+      <a href="https://github.com/picocss/examples/tree/master/v1-company/">Source code</a></small>
+  </footer>
+  <!-- ./ Footer -->
+</body>
+
+</html>

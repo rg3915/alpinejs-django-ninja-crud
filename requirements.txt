@@ -1,10 +1,5 @@
-annotated-types==0.6.0
-asgiref==3.7.2
 Django==5.0
 django-extensions==3.2.3
 django-ninja==1.1.0
-pydantic==2.5.3
-pydantic_core==2.14.6
 python-decouple==3.8
-sqlparse==0.4.4
-typing_extensions==4.9.0
+ruff==0.1.9
