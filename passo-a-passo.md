@@ -198,7 +198,3 @@ Mostrar backend/core/templates/core/index.html
 
 
 Mostrar backend/expense/templates/expense/expense.html
-
-```html
-
-```
