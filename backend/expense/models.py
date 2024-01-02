@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 
@@ -14,3 +16,9 @@ class Expense(models.Model):
 
     def __str__(self):
         return f'{self.description}'
+
+    def date_payment_display(self):
+        if self.date_payment:
+            date_str = self.date_payment.isoformat()
+            iso_date = datetime.fromisoformat(date_str)
+            return iso_date.strftime('%d/%m/%Y')
