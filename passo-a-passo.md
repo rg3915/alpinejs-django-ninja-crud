@@ -72,9 +72,8 @@ for expense in expenses_data:
 ```python
 # backend/api.py
 from ninja import NinjaAPI
-from ninja.security import django_auth
 
-api = NinjaAPI(auth=[django_auth])
+api = NinjaAPI()
 
 api.add_router('', 'backend.expense.api.router')
 ```
