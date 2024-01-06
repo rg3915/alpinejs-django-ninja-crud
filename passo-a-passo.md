@@ -42,13 +42,38 @@ touch backend/expense/templates/expense/expense.html
 ```
 
 
+Comando para inserir dados pelo shell_plus:
+
+```python
+from datetime import date
+expenses_data = [
+    {"description": "Tenis", "value": 150.75, "date_payment": date(2024, 1, 2)},
+    {"description": "Ventilador", "value": 80.50, "date_payment": date(2024, 1, 5)},
+    {"description": "Internet", "value": 120.00, "date_payment": date(2024, 1, 8)},
+    {"description": "Almoço", "value": 35.25, "date_payment": date(2024, 1, 12)},
+    {"description": "Gasolina", "value": 40.00, "date_payment": date(2024, 1, 15)},
+    {"description": "Cinema", "value": 45.50, "date_payment": date(2024, 1, 18)},
+    {"description": "Pipoca", "value": 60, "date_payment": date(2024, 1, 30)},
+    {"description": "Taxi", "value": 80.00, "date_payment": date(2024, 1, 22)},
+    {"description": "Sorvete", "value": 4.75, "date_payment": date(2024, 1, 25)},
+    {"description": "Café", "value": 8.20, "date_payment": date(2024, 1, 28)},
+]
+
+for expense in expenses_data:
+    Expense.objects.create(
+        description=expense['description'],
+        value=expense['value'],
+        date_payment=expense['date_payment'],
+    )
+```
+
+
 
 ```python
 # backend/api.py
 from ninja import NinjaAPI
-from ninja.security import django_auth
 
-api = NinjaAPI(auth=[django_auth])
+api = NinjaAPI()
 
 api.add_router('', 'backend.expense.api.router')
 ```
@@ -83,14 +108,38 @@ class ExpenseForm(forms.ModelForm):
         )
 
     def __init__(self, *args, **kwargs):
-        super(ExpenseForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields['value'].widget.attrs['min'] = 0
+
+        for field_name, field in self.fields.items():
+            field.widget.attrs['x-model'] = f'editItem.{field_name}'
+```
+
+```python
+# backend/expense/models.py
+from django.db import models
+from datetime import datetime
+
+
+class Expense(models.Model):
+    ...
+
+    def date_payment_display(self):
+        if self.date_payment:
+            date_str = self.date_payment.isoformat()
+            iso_date = datetime.fromisoformat(date_str)
+            return iso_date.strftime("%d/%m/%Y")
 ```
 
 
 ```python
 # backend/expense/api.py
+ExpenseSchema = create_schema(Expense, custom_fields=(
+    ('date_payment_display', str, None),
+))
+
+
 class ExpenseCreateSchema(ModelSchema):
     class Meta:
         model = Expense
@@ -148,7 +197,3 @@ Mostrar backend/core/templates/core/index.html
 
 
 Mostrar backend/expense/templates/expense/expense.html
-
-```html
-
-```
