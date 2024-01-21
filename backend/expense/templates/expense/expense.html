@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<div>
+<div x-data="getItems">
   <hgroup>
     <h2>Despesas</h2>
     <h3>Exemplo de despesas</h3>
@@ -10,6 +11,7 @@
   <a
     href="#"
     role="button"
+    @click.prevent="openModal()"
   >Adicionar</a>
 
   <table role="grid">
@@ -31,71 +33,101 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Almoço</td>
-        <td dir="rtl">R$ 32,00</td>
-        <td dir="rtl">02/01/24</td>
-        <td class="text-center">
-          <i class="fa fa-lg fa-pencil-square-o"></i>
-          <i class="fa fa-lg fa-close ml-2 is-danger"></i>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <input
-            id="id_description"
-            name="description"
-            class="mb-0"
-            type="text"
-            value="Sorvete"
-          />
-        </td>
-        <td dir="rtl">
-          <input
-            id="id_value"
-            name="value"
-            class="mb-0"
-            type="number"
-            min="0"
-            step="0.01"
-            value="5.5"
-          />
-        </td>
-        <td dir="rtl">
-          <input
-            id="id_date_payment"
-            name="date_payment"
-            class="mb-0"
-            type="date"
-          />
-        </td>
-        <td class="text-center">
-          <div>
-            <a
-              href=""
-              role="button"
-            >
-              <i class="fa fa-check"></i>
-            </a>
-            <a
-              href=""
-              role="button"
-              class="contrast"
-            >
-              <i class="fa fa-close"></i>
-            </a>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>Camiseta</td>
-        <td dir="rtl">R$ 59,90</td>
-        <td dir="rtl">02/01/24</td>
-        <td class="text-center">
-          <i class="fa fa-lg fa-pencil-square-o"></i>
-          <i class="fa fa-lg fa-close ml-2 is-danger"></i>
-        </td>
-      </tr>
+      <template
+        x-for="(item, index) in items"
+        :key="item.id"
+      >
+        <tr>
+          <td
+            x-text="item.description"
+            x-show="!item.isEdit"
+          >Almoço</td>
+          <!-- Edit -->
+          <td x-show="item.isEdit">
+            <input
+              class="mb-0"
+              type="text"
+              x-model="editItem.description"
+            />
+          </td>
+
+          <td
+            dir="rtl"
+            x-text="'R$ '+item.value"
+            x-show="!item.isEdit"
+          >R$ 32,00</td>
+          <!-- Edit -->
+          <td
+            dir="rtl"
+            x-show="item.isEdit"
+          >
+            <input
+              class="mb-0"
+              type="number"
+              min="0"
+              step="0.01"
+              x-model="editItem.value"
+            />
+          </td>
+
+          <td
+            dir="rtl"
+            x-text="item.date_payment_display"
+            x-show="!item.isEdit"
+          >02/01/24</td>
+          <!-- Edit -->
+          <td
+            dir="rtl"
+            x-show="item.isEdit"
+          >
+            <input
+              class="mb-0"
+              type="date"
+              x-model="editItem.date_payment"
+            />
+          </td>
+
+          <td
+            class="text-center"
+            x-show="!item.isEdit"
+          >
+            <!-- Update -->
+            <i
+              class="fa fa-lg fa-pencil-square-o"
+              @click="getItem(item)"
+            ></i>
+            <!-- Delete -->
+            <i
+              class="fa fa-lg fa-close ml-2 is-danger"
+              @click="deleteItem(item,index)"
+            ></i>
+          </td>
+          <td
+            class="text-center"
+            x-show="item.isEdit"
+          >
+            <div>
+              <!-- Confirm -->
+              <a
+                href=""
+                role="button"
+                @click.prevent="saveData()"
+              >
+                <i class="fa fa-check"></i>
+              </a>
+              <!-- Cancel -->
+              <a
+                href=""
+                role="button"
+                class="contrast"
+                @click.prevent="cancelItem(item)"
+              >
+                <i class="fa fa-close"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+      </template>
     </tbody>
     <tfoot>
       <tr>
@@ -103,6 +135,7 @@
         <td
           scope="col"
           dir="rtl"
+          x-text="'R$ '+total()"
         >R$ 97,40</td>
         <td
           scope="col"
@@ -112,18 +145,20 @@
     </tfoot>
   </table>
 
-  <dialog>
+  <!-- Modal -->
+  <!-- O open é do Pico.css, mas com dois pontos na frente ele vira um bind do AlpineJS. -->
+  <dialog :open="isOpen">
     <article>
       <header>
         <a
           href=""
           aria-label="Close"
           class="close"
-          onclick="event.preventDefault()"
+          @click.prevent="resetForm()"
         ></a>
         Adicionar Despesa
       </header>
-      <form>
+      <form @submit.prevent="saveData()">
         {% csrf_token %}
 
         <label for="">{{ form.description.label }}</label>
@@ -145,6 +180,7 @@
           <button
             type="button"
             class="secondary"
+            @click.prevent="resetForm()"
           >Cancelar</button>
           <button type="submit">Salvar</button>
         </footer>
@@ -153,3 +189,10 @@
   </dialog>
 </div>
 {% endblock content %}
+
+{% block js %}
+<script
+  src="{% static 'js/expense.js' %}"
+  data-tokens='{ "csrf": "{{ csrf_token }}" }'
+></script>
+{% endblock js %}
