@@ -165,7 +165,6 @@
         Adicionar Despesa
       </header>
       <form @submit.prevent="saveData()">
-        {% csrf_token %}
         <label for="">{{ form.description.label }}</label>
         {{ form.description }}
 
