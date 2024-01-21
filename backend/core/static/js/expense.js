@@ -23,7 +23,6 @@ const getItems = () => ({
   },
 
   getData() {
-
     axios.get(url)
       .then(response => {
         // Adiciona isEdit para cada item do array.
@@ -73,6 +72,11 @@ const getItems = () => ({
         // ou
 
         // this.items = this.items.push(response.data)
+
+        // Adiciona o item no começo do array.
+        // this.items = [response.data, ...this.items]
+
+        // ou
 
         // Adiciona o item no final do array.
         // this.items = [...this.items, response.data]
