@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from django.shortcuts import get_object_or_404
-from ninja import ModelSchema, Router
+from ninja import PatchDict, ModelSchema, Router
 from ninja.orm import create_schema
 
 from .models import Expense
@@ -15,6 +15,9 @@ ExpenseSchema = create_schema(
 
 
 class ExpenseCreateSchema(ModelSchema):
+    person_id: int
+    # https://github.com/vitalik/django-ninja/issues/444#issuecomment-1148543491
+
     class Meta:
         model = Expense
         fields = (
@@ -40,11 +43,11 @@ def create_expense(request, payload: ExpenseCreateSchema):
 
 
 @router.patch('expenses/{pk}', response=ExpenseSchema)
-def update_expense(request, pk: int, payload: ExpenseCreateSchema):
+def update_expense(request, pk: int, payload: PatchDict[ExpenseCreateSchema]):
     instance = get_object_or_404(Expense, pk=pk)
-    data = payload.dict()
+    # data = payload.dict()
 
-    for attr, value in data.items():
+    for attr, value in payload.items():
         setattr(instance, attr, value)
 
     instance.save()
